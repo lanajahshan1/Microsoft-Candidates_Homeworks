@@ -21,5 +21,4 @@ steps:
     location: 'West Europe'
     templateLocation: 'Linked artifact'
     csmFile: 'https://github.com/lanajahshan1/Microsoft-Candidates_Homeworks/01-storage.json'
-    overrideParameters: '-storageName "LanaStorageAccount1"'
     deploymentMode: 'Incremental'
