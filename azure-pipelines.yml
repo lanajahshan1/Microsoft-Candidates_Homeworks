@@ -6,7 +6,9 @@
 trigger:
 - main
 
-pool: "OnPremAgentPool"
+pool:
+  name: Default
+  runPipeline: true
 
 steps:
 - task: AzureResourceManagerTemplateDeployment@3
