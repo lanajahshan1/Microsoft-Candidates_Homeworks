@@ -23,3 +23,16 @@ steps:
     csmFile: '01-storage.json'
     overrideParameters: '-storageName "LanaStorageAccount1"'
     deploymentMode: 'Incremental'
+
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Azure subscription 1(75a700f9-db14-47c2-b97c-4481c0611f0b)'
+    subscriptionId: '75a700f9-db14-47c2-b97c-4481c0611f0b'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'Candidates_Homeworks_Lana'
+    location: 'West Europe'
+    templateLocation: 'Linked artifact'
+    csmFile: '01-storage.json'
+    overrideParameters: '-storageName "LanaStorageAccount2"'
+    deploymentMode: 'Incremental'
