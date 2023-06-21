@@ -20,5 +20,5 @@ steps:
     resourceGroupName: 'Candidates_Homeworks_Lana'
     location: 'West Europe'
     templateLocation: 'Linked artifact'
-    csmFile: 'https://github.com/lanajahshan1/Microsoft-Candidates_Homeworks/01-storage.json'
+    csmFile: '01-storage.json'
     deploymentMode: 'Incremental'
