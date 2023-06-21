@@ -9,19 +9,6 @@
     }
   },
   "parameters": {
-    "adminUsername": {
-      "type": "string",
-      "metadata": {
-        "description": "Username for the Virtual Machine."
-      }
-    },
-    "adminPassword": {
-      "type": "securestring",
-      "minLength": 12,
-      "metadata": {
-        "description": "Password for the Virtual Machine."
-      }
-    },
     "dnsLabelPrefix": {
       "type": "string",
       "defaultValue": "[toLower(format('{0}-{1}', parameters('vmName'), uniqueString(resourceGroup().id, parameters('vmName'))))]",
@@ -256,9 +243,7 @@
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computerName": "[parameters('vmName')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
+          "computerName": "[parameters('vmName')]"
         },
         "storageProfile": {
           "imageReference": {
