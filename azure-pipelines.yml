@@ -1,0 +1,24 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Azure subscription 1(75a700f9-db14-47c2-b97c-4481c0611f0b)'
+    subscriptionId: '75a700f9-db14-47c2-b97c-4481c0611f0b'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'Candidates_Homeworks_Lana'
+    location: 'West Europe'
+    templateLocation: 'Linked artifact'
+    csmFile: 'https://github.com/lanajahshan1/Microsoft-Candidates_Homeworks'
+    overrideParameters: 'storageName="LanaStorageAccount1"'
+    deploymentMode: 'Incremental'
