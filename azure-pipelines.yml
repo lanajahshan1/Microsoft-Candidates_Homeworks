@@ -6,8 +6,7 @@
 trigger:
 - main
 
-pool:
-  vmImage: windows-latest
+pool: OnPremAgentPool
 
 steps:
 - task: AzureResourceManagerTemplateDeployment@3
