@@ -21,7 +21,7 @@ steps:
     location: 'West Europe'
     templateLocation: 'Linked artifact'
     csmFile: '01-storage.json'
-    overrideParameters: '-storageName "LanaStorageAccount1"'
+    overrideParameters: '-storageName "lanastorageaccount1"'
     deploymentMode: 'Incremental'
 
 - task: AzureResourceManagerTemplateDeployment@3
@@ -34,5 +34,5 @@ steps:
     location: 'West Europe'
     templateLocation: 'Linked artifact'
     csmFile: '01-storage.json'
-    overrideParameters: '-storageName "LanaStorageAccount2"'
+    overrideParameters: '-storageName "lanastorageaccount2"'
     deploymentMode: 'Incremental'
