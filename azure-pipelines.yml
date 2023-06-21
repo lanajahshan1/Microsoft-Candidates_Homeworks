@@ -21,4 +21,5 @@ steps:
     location: 'West Europe'
     templateLocation: 'Linked artifact'
     csmFile: '01-storage.json'
+    overrideParameters: '-storageName "LanaStorageAccount1"'
     deploymentMode: 'Incremental'
