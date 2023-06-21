@@ -47,5 +47,4 @@ steps:
     location: 'West Europe'
     templateLocation: 'Linked artifact'
     csmFile: 'windows_server.json'
-    overrideParameters: '-adminUsername "lanajahshan" -adminPassword "lana1234"'
     deploymentMode: 'Incremental'
