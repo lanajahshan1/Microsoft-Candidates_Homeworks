@@ -6,7 +6,7 @@
 trigger:
 - main
 
-pool: OnPremAgentPool
+pool: "OnPremAgentPool"
 
 steps:
 - task: AzureResourceManagerTemplateDeployment@3
