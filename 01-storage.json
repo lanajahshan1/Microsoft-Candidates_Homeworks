@@ -7,7 +7,7 @@
     "variables": {},
     "resources": [
         {
-            "name": "storageaccount1234",
+            "name": "storageaccount1234lana",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2021-04-01",
             "tags": {
