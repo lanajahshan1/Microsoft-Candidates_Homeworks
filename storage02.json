@@ -2,7 +2,7 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "storageAccountName": {
+        "storageName": {
             "type": "string"
         },
         "accountType": {
@@ -109,7 +109,7 @@
     "variables": {},
     "resources": [
         {
-            "name": "[parameters('storageAccountName')]",
+            "name": "[parameters('storageName')]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2022-05-01",
             "location": "[resourceGroup().location]",
@@ -155,7 +155,7 @@
             "tags": {}
         },
         {
-            "name": "[concat(parameters('storageAccountName'), '/default')]",
+            "name": "[concat(parameters('storageName'), '/default')]",
             "type": "Microsoft.Storage/storageAccounts/blobServices",
             "apiVersion": "2022-05-01",
             "properties": {
@@ -176,11 +176,11 @@
                 "isVersioningEnabled": "[parameters('isVersioningEnabled')]"
             },
             "dependsOn": [
-                "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]"
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('storageName'))]"
             ]
         },
         {
-            "name": "[concat(parameters('storageAccountName'), '/default')]",
+            "name": "[concat(parameters('storageName'), '/default')]",
             "type": "Microsoft.Storage/storageAccounts/fileservices",
             "apiVersion": "2022-05-01",
             "properties": {
@@ -190,8 +190,8 @@
                 }
             },
             "dependsOn": [
-                "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]",
-                "[concat(concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName')), '/blobServices/default')]"
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('storageName'))]",
+                "[concat(concat('Microsoft.Storage/storageAccounts/', parameters('storageName')), '/blobServices/default')]"
             ]
         }
     ],
