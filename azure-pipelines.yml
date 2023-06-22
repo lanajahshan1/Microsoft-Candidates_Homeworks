@@ -20,7 +20,7 @@ steps:
     resourceGroupName: 'Candidates_Homeworks_Lana'
     location: 'West Europe'
     templateLocation: 'Linked artifact'
-    csmFile: '01-storage.json'
+    csmFile: 'storage02.json'
     overrideParameters: '-storageName "lanastorageaccount1"'
     deploymentMode: 'Incremental'
 
@@ -33,7 +33,7 @@ steps:
     resourceGroupName: 'Candidates_Homeworks_Lana'
     location: 'West Europe'
     templateLocation: 'Linked artifact'
-    csmFile: '01-storage.json'
+    csmFile: 'storage02.json'
     overrideParameters: '-storageName "lanastorageaccount2"'
     deploymentMode: 'Incremental'
 
@@ -47,5 +47,5 @@ steps:
     location: 'West Europe'
     templateLocation: 'Linked artifact'
     csmFile: 'windows_server.json'
-    overrideParameters: '-adminUsername "lanajahshan" -adminPassword $(adminPassword)'
+    overrideParameters: '-adminUsername "lanajahshan" -adminPassword ConvertTo-SecureString -String "Lana123456789" -AsPlainText -Force'
     deploymentMode: 'Incremental'
