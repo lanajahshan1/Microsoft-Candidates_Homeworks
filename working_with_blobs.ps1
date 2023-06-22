@@ -5,8 +5,18 @@ $DestStorageAccount = "lanastorageaccount2"
 $SourceStorageContext = New-AzStorageContext -StorageAccountName $SourceStorageAccount -StorageAccountKey $SourceStorageKey
 $DestStorageContext = New-AzStorageContext -StorageAccountName $DestStorageAccount -StorageAccountKey $DestStorageKey
 
-$containerA = New-AzStorageContainer -Context $SourceStorageContext
-$containerb = New-AzStorageContainer -Context $DestStorageContext
+$containerA = New-AzStorageContainer -Context $SourceStorageContext -Permission Blob
+$containerb = New-AzStorageContainer -Context $DestStorageContext -Permission Blob
+
+
+$Blob1HT = @{
+    File             = 'file.txt'
+    Container        = $containerName
+    Blob             = "file.txt"
+    Context          = $SourceStorageContext
+    StandardBlobTier = 'Hot'
+  }
+  Set-AzStorageBlobContent @Blob1HT
 
 #az storage container create --account-name $accountB --name $containerName --auth-mode login
 
