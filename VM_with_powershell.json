@@ -4,6 +4,7 @@
     "parameters": {
       "vmName": {
         "type": "string",
+        "defaultValue": "windows_server2",
         "metadata": {
           "description": "The name of the virtual machine."
         }
