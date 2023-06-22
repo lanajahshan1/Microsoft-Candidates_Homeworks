@@ -46,6 +46,6 @@ steps:
     resourceGroupName: 'Candidates_Homeworks_Lana'
     location: 'West Europe'
     templateLocation: 'Linked artifact'
-    csmFile: 'VM_with_powershell.json'
+    csmFile: 'windows_server.json'
     overrideParameters: '-adminUsername "lanajahshan" -adminPassword "Lana_123456789"'
     deploymentMode: 'Incremental'
