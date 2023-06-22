@@ -47,5 +47,5 @@ steps:
     location: 'West Europe'
     templateLocation: 'Linked artifact'
     csmFile: 'windows_server.json'
-    overrideParameters: '-adminUsername "lanajahshan" -adminPassword ConvertTo-SecureString -String "Lana123456789" -AsPlainText -Force'
+    overrideParameters: '-adminUsername "lanajahshan" -adminPassword $(adminPassword)'
     deploymentMode: 'Incremental'
