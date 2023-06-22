@@ -250,10 +250,10 @@
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]",
           "windowsConfiguration": {
-            "provisionVMAgent": true,
-            "enableAutomaticUpdates": true,
-            "powerShellVersion": "5.1"
-          }
+              "provisionVMAgent": true,
+              "enableAutomaticUpdates": true,
+              "powerShellVersion": "5.1"
+            }
         },
         "storageProfile": {
           "imageReference": {
@@ -292,7 +292,7 @@
         "securityProfile": "[if(equals(parameters('securityType'), 'TrustedLaunch'), variables('securityProfileJson'), null())]"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]",
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
       ]
     },
     {
