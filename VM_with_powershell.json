@@ -1,0 +1,115 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "vmName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the virtual machine."
+        }
+      },
+      "adminUsername": {
+        "type": "string",
+        "metadata": {
+          "description": "Username for the virtual machine."
+        }
+      },
+      "adminPassword": {
+        "type": "securestring",
+        "metadata": {
+          "description": "Password for the virtual machine."
+        }
+      },
+      "vmSize": {
+        "type": "string",
+        "defaultValue": "Standard_DS2_v2",
+        "metadata": {
+          "description": "The size of the virtual machine."
+        }
+      }
+    },
+    "variables": {
+      "nicName": "[concat(parameters('vmName'), '-nic')]",
+      "publicIPName": "[concat(parameters('vmName'), '-ip')]",
+      "vnetName": "[concat(parameters('vmName'), '-vnet')]",
+      "subnetName": "[concat(parameters('vmName'), '-subnet')]"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Network/networkInterfaces",
+        "apiVersion": "2021-05-01",
+        "name": "[variables('nicName')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [],
+        "properties": {
+          "ipConfigurations": [
+            {
+              "name": "ipconfig1",
+              "properties": {
+                "subnet": {
+                  "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnetName'), variables('subnetName'))]"
+                },
+                "privateIPAllocationMethod": "Dynamic"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Compute/virtualMachines",
+        "apiVersion": "2021-03-01",
+        "name": "[parameters('vmName')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+        ],
+        "properties": {
+          "hardwareProfile": {
+            "vmSize": "[parameters('vmSize')]"
+          },
+          "osProfile": {
+            "computerName": "[parameters('vmName')]",
+            "adminUsername": "[parameters('adminUsername')]",
+            "adminPassword": "[parameters('adminPassword')]",
+            "windowsConfiguration": {
+              "provisionVMAgent": true,
+              "enableAutomaticUpdates": true,
+              "powerShellVersion": "5.1"
+            }
+          },
+          "storageProfile": {
+            "imageReference": {
+              "publisher": "MicrosoftWindowsServer",
+              "offer": "WindowsServer",
+              "sku": "2019-Datacenter",
+              "version": "latest"
+            },
+            "osDisk": {
+              "createOption": "FromImage",
+              "managedDisk": {
+                "storageAccountType": "Standard_LRS"
+              }
+            }
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "outputs": {
+      "vmName": {
+        "type": "string",
+        "value": "[parameters('vmName')]"
+      },
+      "vmFQDN": {
+        "type": "string",
+        "value": "[reference(resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))).dnsSettings.fqdn]"
+      }
+    }
+  }
+  
