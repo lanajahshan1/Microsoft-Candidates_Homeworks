@@ -15,7 +15,7 @@
         },
         "networkSecurityGroupName": {
             "type": "string",
-            "defaultValue": "WindowsVM-nsg"
+            "defaultValue": "WindowsVM1-nsg"
         },
         "networkSecurityGroupRules": {
             "type": "array",
@@ -47,7 +47,7 @@
         },
         "publicIpAddressName1": {
             "type": "string",
-            "defaultValue":"WindowsVM-ip"
+            "defaultValue":"WindowsVM1-ip"
         },
         "publicIpAddressType": {
             "type": "string",
@@ -63,11 +63,11 @@
         },
         "virtualMachineName1": {
             "type": "string",
-            "defaultValue":"WindowsVM"
+            "defaultValue":"WindowsVM1"
         },
         "virtualMachineComputerName1": {
             "type": "string",
-            "defaultValue": "WindowsVM"
+            "defaultValue": "WindowsVM1"
         },
         "osDiskType": {
             "type": "string",
