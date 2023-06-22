@@ -146,6 +146,16 @@
   },
   "resources": [
     {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2022-05-01",
+      "name": "[variables('storageAccountName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "Storage"
+    },
+    {
       "type": "Microsoft.Network/publicIPAddresses",
       "apiVersion": "2022-05-01",
       "name": "[parameters('publicIpName')]",
@@ -214,7 +224,7 @@
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2022-05-01",
       "name": "[variables('nicName')]",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('location')]",
       "properties": {
         "ipConfigurations": [
           {
@@ -240,10 +250,7 @@
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2022-03-01",
       "name": "[parameters('vmName')]",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-          "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
-        ],
+      "location": "[parameters('location')]",
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
@@ -263,7 +270,7 @@
           "osDisk": {
             "createOption": "FromImage",
             "managedDisk": {
-              "storageAccountType": "Standard_LRS"
+              "storageAccountType": "StandardSSD_LRS"
             }
           },
           "dataDisks": [
@@ -275,11 +282,11 @@
           ]
         },
         "networkProfile": {
-            "networkInterfaces": [
-              {
-                "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
-              }
-            ]
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+            }
+          ]
         },
         "diagnosticsProfile": {
           "bootDiagnostics": {
@@ -288,7 +295,11 @@
           }
         },
         "securityProfile": "[if(equals(parameters('securityType'), 'TrustedLaunch'), variables('securityProfileJson'), null())]"
-      }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+      ]
     },
     {
       "condition": "[and(equals(parameters('securityType'), 'TrustedLaunch'), and(equals(variables('securityProfileJson').uefiSettings.secureBootEnabled, true()), equals(variables('securityProfileJson').uefiSettings.vTpmEnabled, true())))]",
