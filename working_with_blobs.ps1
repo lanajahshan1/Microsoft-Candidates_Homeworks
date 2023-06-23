@@ -1,31 +1,49 @@
-$containerName = 'blobscontainer'
-$SourceStorageAccount = "lanastorageaccount1" 
-$DestStorageAccount = "lanastorageaccount2"   
-
-$SourceStorageContext = New-AzStorageContext -StorageAccountName $SourceStorageAccount -StorageAccountKey $SourceStorageKey
-$DestStorageContext = New-AzStorageContext -StorageAccountName $DestStorageAccount -StorageAccountKey $DestStorageKey
-
-$containerA = New-AzStorageContainer -Context $SourceStorageContext -Permission Blob
-$containerb = New-AzStorageContainer -Context $DestStorageContext -Permission Blob
-
-
-$Blob1HT = @{
-    File             = 'file.txt'
-    Container        = $containerName
-    Blob             = "file.txt"
-    Context          = $SourceStorageContext
-    StandardBlobTier = 'Hot'
-  }
-  Set-AzStorageBlobContent @Blob1HT
-
-#az storage container create --account-name $accountB --name $containerName --auth-mode login
-
-For ($i=0; $i -100; $i++) {
-    $filename     = "file" + $i + ".txt"
-    $path = ".\file" + $i + ".txt"
-    New-Item -Path . -Name $filename -ItemType "file" -Value "This is a blob."
-    Set-AzStorageBlobContent -Container $containerName -File $filename 
-    Remove-Item -Path $path
-
-    Start-CopyAzureStorageBlob -Context $SourceStorageContext -SrcContainer $ContainerName -SrcBlob $filename -DestContext $DestStorageContext -DestContainer $ContainerName -DestBlob $filename
+if (-not (Get-Module -ListAvailable Az.Storage)) {
+  Install-Module -Name Az.Storage -Force
 }
+
+Connect-AzAccount
+
+Set-AzContext -Subscription 75a700f9-db14-47c2-b97c-4481c0611f0b
+
+$sourceStorageAccountName = "lanastorageaccount1"
+$destinationStorageAccount = "lanastorageaccount2"
+$sourceContainerName = "sourceblobcontainer"
+$destinationContainerName = "destinationblobcontainer"
+
+$keyA = (Get-AzStorageAccountKey -ResourceGroupName "Candidates_Homework_Lana" -Name $sourceStorageAccountName)[0].Value
+$keyB = (Get-AzStorageAccountKey -ResourceGroupName "Candidates_Homework_Lana" -Name $destinationStorageAccount)[0].Value
+
+$sourceContext = New-AzStorageContext -StorageAccountName $sourceStorageAccountName -StorageAccountKey $keyA
+$destinationContext = New-AzStorageContext -StorageAccountName $destinationStorageAccount -StorageAccountKey $keyB
+
+New-AzStorageContainer -Name $sourceContainerName -Context $sourceContext -Permission Container
+New-AzStorageContainer -Name $destinationContainerName -Context $destinationContext -Permission Container
+
+for ($i = 1; $i -le 100; $i++) {
+  $blobName = "file$i.txt"
+
+    New-Item -Path . -Name $blobName -ItemType "file" -Value "This is a blob." -Force
+    $blob = Set-AzStorageBlobContent -Container $sourceContainerName -File $blobName -Blob $blobName -Context $sourceContext -Force
+
+  if ($blob) {
+      Write-Host "Blob '$blobName' uploaded to source storage account successfully."
+  } else {
+      Write-Host "Failed to upload blob '$blobName' to source storage account."
+  }
+}
+
+for ($i = 1; $i -le 100; $i++) {
+  $blobName = "file$i.txt"
+
+  $copyStatus = Start-AzStorageBlobCopy -SrcContainer $sourceContainerName -SrcBlob $blobName -DestContainer $destinationContainerName -DestBlob $blobName -Context $sourceContext -DestContext $destinationContext
+
+  if ($copyStatus) {
+      Write-Host "Blob '$blobName' copied to destination storage account successfully."
+  } else {
+      Write-Host "Failed to copy blob '$blobName' to destination storage account."
+  }
+}
+
+
+Disconnect-AzAccount
