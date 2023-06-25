@@ -96,6 +96,14 @@
         "isVersioningEnabled": {
             "type": "bool",
             "defaultvalue": false
+        },
+        "isShareSoftDeleteEnabled": {
+            "type": "bool",
+            "defaultvalue": true
+        },
+        "shareSoftDeleteRetentionDays": {
+            "type": "int",
+            "defaultvalue": 7
         }
     },
     "variables": {},
@@ -120,6 +128,23 @@
             "name": "[concat(parameters('storageName'), '/default')]",
             "type": "Microsoft.Storage/storageAccounts/blobServices",
             "apiVersion": "2022-05-01",
+            "properties": {
+                "restorePolicy": {
+                    "enabled": "[parameters('isContainerRestoreEnabled')]"
+                },
+                "deleteRetentionPolicy": {
+                    "enabled": "[parameters('isBlobSoftDeleteEnabled')]",
+                    "days": "[parameters('blobSoftDeleteRetentionDays')]"
+                },
+                "containerDeleteRetentionPolicy": {
+                    "enabled": "[parameters('isContainerSoftDeleteEnabled')]",
+                    "days": "[parameters('containerSoftDeleteRetentionDays')]"
+                },
+                "changeFeed": {
+                    "enabled": "[parameters('changeFeed')]"
+                },
+                "isVersioningEnabled": "[parameters('isVersioningEnabled')]"
+            },
             "dependsOn": [
                 "[concat('Microsoft.Storage/storageAccounts/', parameters('storageName'))]"
             ]
