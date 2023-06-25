@@ -72,14 +72,6 @@
                 "restorePolicy": {
                     "enabled": "[parameters('isContainerRestoreEnabled')]"
                 },
-                "deleteRetentionPolicy": {
-                    "enabled": "[parameters('isBlobSoftDeleteEnabled')]",
-                    "days": "[parameters('blobSoftDeleteRetentionDays')]"
-                },
-                "containerDeleteRetentionPolicy": {
-                    "enabled": "[parameters('isContainerSoftDeleteEnabled')]",
-                    "days": "[parameters('containerSoftDeleteRetentionDays')]"
-                },
                 "changeFeed": {
                     "enabled": "[parameters('changeFeed')]"
                 },
