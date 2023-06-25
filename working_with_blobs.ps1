@@ -1,5 +1,7 @@
+write-Output "run start"
 if (-not (Get-Module -ListAvailable Az.Storage)) {
   Install-Module -Name Az.Storage -Force
+  write-Output "if"
 }
 
 
@@ -11,8 +13,8 @@ $destinationStorageAccount = "lanastorageaccount22"
 $sourceContainerName = "sourceblobcontainer"
 $destinationContainerName = "destinationblobcontainer"
 write-Output "run Get-AzStorageAccountKey "
-$keyA = (Get-AzStorageAccountKey -ResourceGroupName "test" -Name $sourceStorageAccountName)[0].Value
-$keyB = (Get-AzStorageAccountKey -ResourceGroupName "test" -Name $destinationStorageAccount)[0].Value
+$keyA = (Get-AzStorageAccountKey -ResourceGroupName "test1" -Name $sourceStorageAccountName)[0].Value
+$keyB = (Get-AzStorageAccountKey -ResourceGroupName "test1" -Name $destinationStorageAccount)[0].Value
 
 write-Output "run New-AzStorageContext "
 
