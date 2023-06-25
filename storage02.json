@@ -13,62 +13,6 @@
             "type": "string",
             "defaultvalue": "StorageV2" 
         },
-        "minimumTlsVersion": {
-            "type": "string",
-            "defaultvalue": "TLS1_2"
-        },
-        "supportsHttpsTrafficOnly": {
-            "type": "bool",
-            "defaultvalue": true
-        },
-        "allowBlobPublicAccess": {
-            "type": "bool",
-            "defaultvalue": true
-        },
-        "allowSharedKeyAccess": {
-            "type": "bool",
-            "defaultvalue": true
-        },
-        "defaultOAuth": {
-            "type": "bool",
-            "defaultvalue": false
-        },
-        "accessTier": {
-            "type": "string",
-            "defaultvalue": "Hot"
-        },
-        "publicNetworkAccess": {
-            "type": "string",
-            "defaultvalue": "Enabled"
-        },
-        "allowCrossTenantReplication": {
-            "type": "bool",
-            "defaultvalue": true
-        },
-        "networkAclsBypass": {
-            "type": "string",
-            "defaultvalue": "AzureServices"
-        },
-        "networkAclsDefaultAction": {
-            "type": "string",
-            "defaultvalue": "Allow"
-        },
-        "dnsEndpointType": {
-            "type": "string",
-            "defaultvalue": "Standard"
-        },
-        "keySource": {
-            "type": "string",
-            "defaultvalue": "Microsoft.Storage"
-        },
-        "encryptionEnabled": {
-            "type": "bool",
-            "defaultvalue": true
-        },
-        "infrastructureEncryptionEnabled": {
-            "type": "bool",
-            "defaultvalue": false
-        },
         "isContainerRestoreEnabled": {
             "type": "bool",
             "defaultvalue": false
@@ -96,14 +40,6 @@
         "isVersioningEnabled": {
             "type": "bool",
             "defaultvalue": false
-        },
-        "isShareSoftDeleteEnabled": {
-            "type": "bool",
-            "defaultvalue": true
-        },
-        "shareSoftDeleteRetentionDays": {
-            "type": "int",
-            "defaultvalue": 7
         }
     },
     "variables": {},
@@ -131,14 +67,6 @@
             "properties": {
                 "restorePolicy": {
                     "enabled": "[parameters('isContainerRestoreEnabled')]"
-                },
-                "deleteRetentionPolicy": {
-                    "enabled": "[parameters('isBlobSoftDeleteEnabled')]",
-                    "days": "[parameters('blobSoftDeleteRetentionDays')]"
-                },
-                "containerDeleteRetentionPolicy": {
-                    "enabled": "[parameters('isContainerSoftDeleteEnabled')]",
-                    "days": "[parameters('containerSoftDeleteRetentionDays')]"
                 },
                 "changeFeed": {
                     "enabled": "[parameters('changeFeed')]"
