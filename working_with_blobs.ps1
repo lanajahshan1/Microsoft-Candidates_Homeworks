@@ -2,24 +2,26 @@ if (-not (Get-Module -ListAvailable Az.Storage)) {
   Install-Module -Name Az.Storage -Force
 }
 
-Connect-AzAccount
 
+write-Output "run Set-AzContext"
 Set-AzContext -Subscription 75a700f9-db14-47c2-b97c-4481c0611f0b
 
 $sourceStorageAccountName = "lanastorageaccount11"
 $destinationStorageAccount = "lanastorageaccount22"
 $sourceContainerName = "sourceblobcontainer"
 $destinationContainerName = "destinationblobcontainer"
+write-Output "run Get-AzStorageAccountKey "
+$keyA = (Get-AzStorageAccountKey -ResourceGroupName "test" -Name $sourceStorageAccountName)[0].Value
+$keyB = (Get-AzStorageAccountKey -ResourceGroupName "test" -Name $destinationStorageAccount)[0].Value
 
-$keyA = (Get-AzStorageAccountKey -ResourceGroupName "test1" -Name $sourceStorageAccountName)[0].Value
-$keyB = (Get-AzStorageAccountKey -ResourceGroupName "test1" -Name $destinationStorageAccount)[0].Value
+write-Output "run New-AzStorageContext "
 
 $sourceContext = New-AzStorageContext -StorageAccountName $sourceStorageAccountName -StorageAccountKey $keyA
 $destinationContext = New-AzStorageContext -StorageAccountName $destinationStorageAccount -StorageAccountKey $keyB
-
+write-Output "run New-AzStorageContainer "
 New-AzStorageContainer -Name $sourceContainerName -Context $sourceContext -Permission Container
 New-AzStorageContainer -Name $destinationContainerName -Context $destinationContext -Permission Container
-
+write-Output "for "
 for ($i = 1; $i -le 100; $i++) {
   $blobName = "file$i.txt"
 
