@@ -6,13 +6,13 @@ Connect-AzAccount
 
 Set-AzContext -Subscription 75a700f9-db14-47c2-b97c-4481c0611f0b
 
-$sourceStorageAccountName = "lanastorageaccount1"
-$destinationStorageAccount = "lanastorageaccount2"
+$sourceStorageAccountName = "lanastorageaccount11"
+$destinationStorageAccount = "lanastorageaccount22"
 $sourceContainerName = "sourceblobcontainer"
 $destinationContainerName = "destinationblobcontainer"
 
-$keyA = (Get-AzStorageAccountKey -ResourceGroupName "Candidates_Homework_Lana" -Name $sourceStorageAccountName)[0].Value
-$keyB = (Get-AzStorageAccountKey -ResourceGroupName "Candidates_Homework_Lana" -Name $destinationStorageAccount)[0].Value
+$keyA = (Get-AzStorageAccountKey -ResourceGroupName "test" -Name $sourceStorageAccountName)[0].Value
+$keyB = (Get-AzStorageAccountKey -ResourceGroupName "test" -Name $destinationStorageAccount)[0].Value
 
 $sourceContext = New-AzStorageContext -StorageAccountName $sourceStorageAccountName -StorageAccountKey $keyA
 $destinationContext = New-AzStorageContext -StorageAccountName $destinationStorageAccount -StorageAccountKey $keyB
@@ -24,10 +24,25 @@ for ($i = 1; $i -le 100; $i++) {
   $blobName = "file$i.txt"
 
     New-Item -Path . -Name $blobName -ItemType "file" -Value "This is a blob." -Force
-    Set-AzStorageBlobContent -Container $sourceContainerName -File $blobName -Blob $blobName -Context $sourceContext -Force
+    $blob = Set-AzStorageBlobContent -Container $sourceContainerName -File $blobName -Blob $blobName -Context $sourceContext -Force
     Remove-Item -Path "file$i.txt" -Force
-    Start-AzStorageBlobCopy -SrcContainer $sourceContainerName -SrcBlob $blobName -DestContainer $destinationContainerName -DestBlob $blobName -Context $sourceContext -DestContext $destinationContext
+  if ($blob) {
+      Write-Host "Blob '$blobName' uploaded to source storage account successfully."
+  } else {
+      Write-Host "Failed to upload blob '$blobName' to source storage account."
+  }
+}
 
+for ($i = 1; $i -le 100; $i++) {
+  $blobName = "file$i.txt"
+
+  $copyStatus = Start-AzStorageBlobCopy -SrcContainer $sourceContainerName -SrcBlob $blobName -DestContainer $destinationContainerName -DestBlob $blobName -Context $sourceContext -DestContext $destinationContext
+
+  if ($copyStatus) {
+      Write-Host "Blob '$blobName' copied to destination storage account successfully."
+  } else {
+      Write-Host "Failed to copy blob '$blobName' to destination storage account."
+  }
 }
 
 
