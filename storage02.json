@@ -114,38 +114,8 @@
             "apiVersion": "2022-05-01",
             "location": "[resourceGroup().location]",
             "properties": {
-                "minimumTlsVersion": "[parameters('minimumTlsVersion')]",
-                "supportsHttpsTrafficOnly": "[parameters('supportsHttpsTrafficOnly')]",
-                "allowBlobPublicAccess": "[parameters('allowBlobPublicAccess')]",
-                "allowSharedKeyAccess": "[parameters('allowSharedKeyAccess')]",
-                "defaultToOAuthAuthentication": "[parameters('defaultOAuth')]",
-                "accessTier": "[parameters('accessTier')]",
-                "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
-                "allowCrossTenantReplication": "[parameters('allowCrossTenantReplication')]",
-                "networkAcls": {
-                    "bypass": "[parameters('networkAclsBypass')]",
-                    "defaultAction": "[parameters('networkAclsDefaultAction')]",
-                    "ipRules": []
-                },
-                "dnsEndpointType": "[parameters('dnsEndpointType')]",
-                "encryption": {
-                    "keySource": "[parameters('keySource')]",
-                    "services": {
-                        "blob": {
-                            "enabled": "[parameters('encryptionEnabled')]"
-                        },
-                        "file": {
-                            "enabled": "[parameters('encryptionEnabled')]"
-                        },
-                        "table": {
-                            "enabled": "[parameters('encryptionEnabled')]"
-                        },
-                        "queue": {
-                            "enabled": "[parameters('encryptionEnabled')]"
-                        }
-                    },
-                    "requireInfrastructureEncryption": "[parameters('infrastructureEncryptionEnabled')]"
-                }
+                "allowBlobPublicAccess": "[parameters('allowBlobPublicAccess')]"
+                
             },
             "dependsOn": [],
             "sku": {
@@ -177,21 +147,6 @@
             },
             "dependsOn": [
                 "[concat('Microsoft.Storage/storageAccounts/', parameters('storageName'))]"
-            ]
-        },
-        {
-            "name": "[concat(parameters('storageName'), '/default')]",
-            "type": "Microsoft.Storage/storageAccounts/fileservices",
-            "apiVersion": "2022-05-01",
-            "properties": {
-                "shareDeleteRetentionPolicy": {
-                    "enabled": "[parameters('isShareSoftDeleteEnabled')]",
-                    "days": "[parameters('shareSoftDeleteRetentionDays')]"
-                }
-            },
-            "dependsOn": [
-                "[concat('Microsoft.Storage/storageAccounts/', parameters('storageName'))]",
-                "[concat(concat('Microsoft.Storage/storageAccounts/', parameters('storageName')), '/blobServices/default')]"
             ]
         }
     ],
