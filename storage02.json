@@ -105,6 +105,10 @@
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2022-05-01",
             "location": "[resourceGroup().location]",
+            "properties": {
+                "allowBlobPublicAccess": "[parameters('allowBlobPublicAccess')]"
+                
+            },
             "dependsOn": [],
             "sku": {
                 "name": "[parameters('accountType')]"
