@@ -7,8 +7,8 @@ $sourceContext = New-AzStorageContext -StorageAccountName $sourceStorageAccountN
 New-AzStorageContainer -Name $sourceContainerName -Context $sourceContext -Permission Container
 
 
-$blobName = "file$i.txt"
+$blobName = "file1.txt"
 
 New-Item -Path . -Name $blobName -ItemType "file" -Value "This is a blob." -Force
 Set-AzStorageBlobContent -Container $sourceContainerName -File $blobName -Blob $blobName -Context $sourceContext -Force
-Remove-Item -Path "file$i.txt" -Force
+Remove-Item -Path "file1.txt" -Force
