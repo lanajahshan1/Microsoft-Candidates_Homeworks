@@ -8,42 +8,6 @@
         "accountType": {
             "type": "string",
             "defaultvalue": "Standard_RAGRS"
-        },
-        "kind": {
-            "type": "string",
-            "defaultvalue": "StorageV2" 
-        },
-        "allowBlobPublicAccess": {
-            "type": "bool",
-            "defaultvalue": true
-        },
-        "isContainerRestoreEnabled": {
-            "type": "bool",
-            "defaultvalue": false
-        },
-        "isBlobSoftDeleteEnabled": {
-            "type": "bool",
-            "defaultvalue": true
-        },
-        "blobSoftDeleteRetentionDays": {
-            "type": "int",
-            "defaultvalue": 7
-        },
-        "isContainerSoftDeleteEnabled": {
-            "type": "bool",
-            "defaultvalue": true
-        },
-        "containerSoftDeleteRetentionDays": {
-            "type": "int",
-            "defaultvalue": 7
-        },
-        "changeFeed": {
-            "type": "bool",
-            "defaultvalue": false
-        },
-        "isVersioningEnabled": {
-            "type": "bool",
-            "defaultvalue": false
         }
     },
     "variables": {},
@@ -53,15 +17,11 @@
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2022-05-01",
             "location": "[resourceGroup().location]",
-            "properties": {
-                "allowBlobPublicAccess": "[parameters('allowBlobPublicAccess')]"
-                
-            },
             "dependsOn": [],
             "sku": {
                 "name": "[parameters('accountType')]"
             },
-            "kind": "[parameters('kind')]",
+            "kind": "StorageV2",
             "tags": {}
         },
         {
@@ -70,9 +30,8 @@
             "apiVersion": "2022-05-01",
             "properties": {
                 "changeFeed": {
-                    "enabled": "[parameters('changeFeed')]"
-                },
-                "isVersioningEnabled": "[parameters('isVersioningEnabled')]"
+                    "enabled": false
+                }
             },
             "dependsOn": [
                 "[concat('Microsoft.Storage/storageAccounts/', parameters('storageName'))]"
