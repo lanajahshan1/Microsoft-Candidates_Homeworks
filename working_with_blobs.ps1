@@ -2,8 +2,8 @@ if (-not (Get-Module -ListAvailable Az.Storage)) {
   Install-Module -Name Az.Storage -Force
 }
 
-$sourceStorageAccountName = "lanastorageaccount11"
-$destinationStorageAccount = "lanastorageaccount22"
+$sourceStorageAccountName = "lanastorageaccount1"
+$destinationStorageAccount = "lanastorageaccount2"
 $sourceContainerName = "sourceblobcontainer"
 $destinationContainerName = "destinationblobcontainer"
 
